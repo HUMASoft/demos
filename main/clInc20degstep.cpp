@@ -5,7 +5,8 @@
 #include "SocketCanPort.h"
 #include "math.h"
 
-#include "SerialArduino.h"
+//#include "SerialArduino.h"
+#include "imu3dmgx510.h"
 
 #include "fcontrol.h"
 #include "IPlot.h"
@@ -22,7 +23,9 @@
 int main ()
 {
     //--sensor--
-    SerialArduino tilt;
+//    SerialArduino tilt;
+     IMU3DMGX510 tilt;
+
     double incSensor,oriSensor;
 //    sleep(4); //wait for sensor
 
@@ -116,7 +119,7 @@ int main ()
     //tilt initialization
     for (double t=0; t<6; t+=dts)
     {
-    if (tilt.readSensor(incSensor,oriSensor)>=0) break;
+    if (tilt.GetIncliOri(incSensor,oriSensor)>=0) break;
 
     }
 
@@ -143,7 +146,7 @@ int main ()
         double interval=5; //in seconds
         for (double t=0;t<interval; t+=dts)
         {
-            if (tilt.readSensor(incSensor,oriSensor) <0)
+            if (tilt.GetIncliOri(incSensor,oriSensor) <0)
             {
                 cout << "Sensor error! " << endl;
                 //Due to sensor error set motors zero velocity.
